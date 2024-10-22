@@ -1,17 +1,16 @@
-      SUBROUTINE UPDATE_POS_VEL(POS, VEL, ACC, DT)
-      IMPLICIT NONE
-      REAL POS(3), VEL(3), ACC(3), DT
+      subroutine update
+      implicit none
+      include "com"
+      integer i
 
-      ! Update velocity
-      VEL(1) = VEL(1) + ACC(1) * DT
-      VEL(2) = VEL(2) + ACC(2) * DT
-      VEL(3) = VEL(3) + ACC(3) * DT
+      do i = 1, numprt
+      vel(1,i) = vel(1,i) + acc(1,i) * dt
+      vel(2,i) = vel(2,i) + acc(2,i) * dt
+      vel(3,i) = vel(3,i) + acc(3,i) * dt
 
-      ! Update position
-      POS(1) = POS(1) + VEL(1) * DT
-      POS(2) = POS(2) + VEL(2) * DT
-      POS(3) = POS(3) + VEL(3) * DT
-
-      RETURN
-      END SUBROUTINE UPDATE_POS_VEL
-
+      pos(1,i) = pos(1,i) + vel(1,i) * dt
+      pos(2,i) = pos(2,i) + vel(2,i) * dt
+      pos(3,i) = pos(3,i) + vel(3,i) * dt
+      enddo
+      return
+      end

@@ -1,33 +1,34 @@
+#Object files
+OBJ = main.o fftcc.o grvit.o \
+      init.o dens.o poten.o update.o out.o
+
 # Compiler
-FC = ifort
-
-# Compiler flags
-FFLAGS = -O2 -fopenmp -mcmodel=large
-
-# Source files
-SRC = main.f initialize.f density.f potential.f update.f acceleration.f fft3ser.f fftsubs-fourt.f
-
-# Object files
-OBJ = $(SRC:.f=.o)
-
-# Executable
-EXEC = dark_matter_simulation
-
-# Default target
-all: $(EXEC)
-
-# Link the executable
-$(EXEC): $(OBJ)
-	$(FC) $(FFLAGS) -o $@ $(OBJ)
-
-# Compile each .f file to .o
+FC     = ifort
+#
+# # Compiler options
+OPTS   = -openmp -mcmodel=large
+#
+# # Library flags (if any)
+LIB    =
+#
+# # Directory for executable
+EXEDIR = ./
+#
+# # Pattern rule for compiling .f files to .o
 %.o: %.f
-	$(FC) $(FFLAGS) -c $< -o $@
+	${FC} ${OPTS} -c $<
+#
+#         # Link object files to create the final executable
+main.x: $(OBJ)
+	$(FC) ${OPTS} -o $(EXEDIR)main.x $(OBJ) $(LIB)
 
-# Clean up object files and executable
+# Ensure that com file is present for dependencies
+$(OBJ): com
+#
 clean:
 	rm -f $(OBJ) $(EXEC)
-
+#
 # Phony targets
 .PHONY: all clean
+#
 
